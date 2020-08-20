@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Duel Game</title>
+
+
+
+
+        <link rel="stylesheet" href="css/style.css">
+
+
+
+
+  </head>
+
+  <body>
+
+
+<div id="load"></div>
+<div id="instructions">
+  <div id="instructions1" onclick="startGame()">
+    <h1>THE DUEL</h1>
+    <p><br><br><br>Can you beat the skeleton ? How many duels can you win ?</p>
+    <p><br>Use <kbd>a</kbd>,<kbd>d</kbd>,<kbd>space</kbd> to walk and jump and <kbd>shift</kbd> to swing your sword.<br> Your score is on the right side and your enemy's one on the left.</p>
+    <p>
+      <br>The skeleton reaction time is slow, he can miss his attacks (so can you),<br> but care, his attack speed is faster !
+
+    </p>
+  </div>
+  <div id="instructions2" onclick="startGame()">
+    <p>
+      <br>You can also try to move the mouse or press it all over the cloth<br>behind ! If you want to see more information about the cloth<br>animation visit the codepen in the link at the bottom right corner.
+
+    </p>
+    <p>
+      <br>Use the instructions menu to edit the cloth behavoir, or<br>pause the game at the top left corner. (Not the cloth or the fire).
+
+    </p>
+    <p>
+      <br>Mute or unmute the music at the bottom left corner.
+
+    </p>
+    <p style="font-size: 25px;">
+      <br>Press the screen to continue !
+
+    </p>
+  </div>
+</div>
+<h1>THE DUEL</h1><span id="fps_count">FPS: 0</span><img id="gear" src="resources/gear.png" onclick="toggleOptions()" alt="Options"/>
+<div id="counter_player">0</div>
+<div id="counter_skel">0</div>
+<div id="info">
+  <div class="h_line">
+    <input id="windcheck" type="checkbox" onclick="WIND=this.checked"/>Wind
+    <input id="wind_bar" type="range" onchange="WIND_FORCE=this.value" max="500" min="1" value="20"/>
+  </div>
+  <div class="h_line">
+    <input id="renderpoints" type="checkbox" onclick="render_points=!render_points"/>Render points
+  </div>
+  <div class="h_line">
+    <input id="rendersticks" type="checkbox" onclick="render_sticks=!render_sticks" checked="checked"/>Render sticks
+  </div>
+  <div class="h_line">
+    <input id="renderarea" type="checkbox" onclick="render_area=!render_area" checked="checked"/>Render Area
+  </div>
+  <div>
+    <input id="showpicture" type="checkbox" onclick="show_picture=!show_picture" checked="checked"/>Area picture (32x32)
+  </div>
+</div>
+<div id="character">
+  <div id="upper"></div>
+  <div id="down"></div>
+</div>
+<div id="skeleton">
+  <div id="upper_skel"></div>
+  <div id="down_skel"></div>
+</div>
+<div id="canvasdiv">
+  <canvas id="flag_canvas"></canvas>
+  <div id="torch_left">
+    <canvas id="fire1_canvas"></canvas>
+    <div id="svg_torch_left">
+      <svg width="210" height="335">
+        <rect x="0" y="0" rx="40" ry="40" width="210" height="85" style="fill:rgb(47,59, 73);"></rect>
+        <rect x="17" y="15" rx="20" ry="40" width="175" height="35" style="fill:rgb(67,79, 93);"></rect>
+        <rect x="17" y="15" rx="20" ry="40" width="70" height="35" style="fill:rgb(87,97,109);"></rect>
+        <rect x="117" y="15" rx="20" ry="40" width="60" height="35" style="fill:rgb(87,97,109);"></rect>
+        <path d="M45  85 L50 110 H160 L165  85 Z" style="fill:rgb(28,36,47);"></path>
+        <path d="M50 110 L80 310 H130 L160 110 Z" style="fill:rgb(47,59,73);"></path>
+        <g transform="translate(85,280) rotate(-82) scale(0.8)">
+          <rect x="17" y="15" rx="20" ry="40" width="175" height="35" style="fill:rgb(67,79, 93);"></rect>
+          <rect x="30" y="15" rx="20" ry="40" width="70" height="35" style="fill:rgb(87,97,109);"></rect>
+          <rect x="117" y="15" rx="20" ry="40" width="60" height="35" style="fill:rgb(87,97,109);"></rect>
+        </g>
+        <g transform="translate(80,285)">
+          <clipPath id="cut_svg">
+            <rect x="0" y="25" width="50" height="25"></rect>
+          </clipPath>
+          <circle cx="25" cy="25" r="25" clip_path="url(#cut-svg)" style="fill:rgb(47,59, 73);"></circle>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div id="torch_right">
+    <canvas id="fire2_canvas"></canvas>
+    <div id="svg_torch_left">
+      <svg width="210" height="335">
+        <rect x="0" y="0" rx="40" ry="40" width="210" height="85" style="fill:rgb(47,59, 73);"></rect>
+        <rect x="17" y="15" rx="20" ry="40" width="175" height="35" style="fill:rgb(67,79, 93);"></rect>
+        <rect x="17" y="15" rx="20" ry="40" width="70" height="35" style="fill:rgb(87,97,109);"></rect>
+        <rect x="117" y="15" rx="20" ry="40" width="60" height="35" style="fill:rgb(87,97,109);"></rect>
+        <path d="M45  85 L50 110 H160 L165  85 Z" style="fill:rgb(28,36,47);"></path>
+        <path d="M50 110 L80 310 H130 L160 110 Z" style="fill:rgb(47,59,73);"></path>
+        <g transform="translate(85,280) rotate(-82) scale(0.8)">
+          <rect x="17" y="15" rx="20" ry="40" width="175" height="35" style="fill:rgb(67,79, 93);"></rect>
+          <rect x="30" y="15" rx="20" ry="40" width="70" height="35" style="fill:rgb(87,97,109);"></rect>
+          <rect x="117" y="15" rx="20" ry="40" width="60" height="35" style="fill:rgb(87,97,109);"></rect>
+        </g>
+        <g transform="translate(80,285)">
+          <clipPath id="cut_svg">
+            <rect x="0" y="25" width="50" height="25"></rect>
+          </clipPath>
+          <circle cx="25" cy="25" r="25" clip_path="url(#cut-svg)" style="fill:rgb(47,59, 73);"></circle>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+<div style="text-align: center">
+  <div id="hp">
+    <div id="heart1" class="heart"></div>
+    <div id="heart2" class="heart"></div>
+    <div id="heart3" class="heart"></div>
+  </div>
+</div>
+<div style="text-align: center">
+  <div id="hp">
+    <div id="heart4" class="heart_purple"></div>
+    <div id="heart5" class="heart_purple"></div>
+    <div id="heart6" class="heart_purple"></div>
+  </div>
+</div><img id="sound" src="resources/sound.png" alt="Toggle Sound" onclick="toggleSound(this)"/>
+<div id="cloth_link">See also <a id='codepen' href='http://codepen.io/Ediolot/full/LNWWbE/'>this</a> cloth codepen</div>
+<div id="name">Jorge Sierra Acosta (Audio theme from <a href='https://soundcloud.com/trevor-d-lentz'>Trevor Lenz</a> under <a href='http://creativecommons.org/licenses/by/3.0/'>CC-BY 3.0</a> License)</div>
+
+        <script src="js/index.js"></script>
+
+
+
+
+  </body>
+</html>

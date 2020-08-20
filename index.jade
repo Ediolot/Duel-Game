@@ -1,0 +1,125 @@
+- var color1 = 'fill:rgb(47,59, 73);'
+- var color2 = 'fill:rgb(67,79, 93);'
+- var color3 = 'fill:rgb(87,97,109);'
+
+div#load
+
+div#instructions
+    div#instructions1( onclick='startGame()' )
+        h1 THE DUEL
+        p.
+            <br><br><br>Can you beat the skeleton ? How many duels can you win ?
+        p.
+            <br>Use <kbd>a</kbd>,<kbd>d</kbd>,<kbd>space</kbd> to walk and jump and <kbd>shift</kbd> to swing your sword.<br> Your score is on the right side and your enemy's one on the left.
+        p.
+            <br>The skeleton reaction time is slow, he can miss his attacks (so can you),<br> but care, his attack speed is faster !
+
+    div#instructions2( onclick='startGame()' )
+        p.
+            <br>You can also try to move the mouse or press it all over the cloth<br>behind ! If you want to see more information about the cloth<br>animation visit the codepen in the link at the bottom right corner.
+
+        p.
+            <br>Use the instructions menu to edit the cloth behavoir, or<br>pause the game at the top left corner. (Not the cloth or the fire).
+
+        p.
+            <br>Mute or unmute the music at the bottom left corner.
+
+        p(style='font-size: 25px;').
+            <br>Press the screen to continue !
+
+h1 THE DUEL
+span#fps_count FPS: 0
+img#gear( src='resources/gear.png' onclick='toggleOptions()' alt='Options')
+
+div#counter_player 0
+div#counter_skel 0
+
+div#info
+    div.h_line
+        input#windcheck( type='checkbox' onclick='WIND=this.checked' )
+        | Wind
+        input#wind_bar( type='range' onchange='WIND_FORCE=this.value' max='500' min='1' value='20' )
+    div.h_line
+        input#renderpoints( type='checkbox' onclick='render_points=!render_points' )
+        | Render points
+    div.h_line
+        input#rendersticks( type='checkbox' onclick='render_sticks=!render_sticks' checked )
+        | Render sticks
+    div.h_line
+        input#renderarea( type='checkbox' onclick='render_area=!render_area' checked )
+        | Render Area
+    div
+        input#showpicture( type='checkbox' onclick='show_picture=!show_picture' checked )
+        | Area picture (32x32)
+
+div#character
+    div#upper
+    div#down
+
+div#skeleton
+    div#upper_skel
+    div#down_skel
+
+div#canvasdiv
+    canvas#flag_canvas
+    div#torch_left
+        canvas#fire1_canvas
+        div#svg_torch_left
+            svg( width='210' height='335' )
+                rect( x='0'   y='0'  rx='40' ry='40' width='210' height='85' style=color1 )
+                rect( x='17'  y='15' rx='20' ry='40' width='175' height='35' style=color2 )
+                rect( x='17'  y='15' rx='20' ry='40' width='70'  height='35' style=color3 )
+                rect( x='117' y='15' rx='20' ry='40' width='60'  height='35' style=color3 )
+
+                path( d='M45  85 L50 110 H160 L165  85 Z' style='fill:rgb(28,36,47);' )
+                path( d='M50 110 L80 310 H130 L160 110 Z' style='fill:rgb(47,59,73);' )
+
+                g( transform='translate(85,280) rotate(-82) scale(0.8)' )
+                    rect( x='17'  y='15' rx='20' ry='40' width='175' height='35' style=color2 )
+                    rect( x='30'  y='15' rx='20' ry='40' width='70'  height='35' style=color3 )
+                    rect( x='117' y='15' rx='20' ry='40' width='60'  height='35' style=color3 )
+
+                g( transform='translate(80,285)' )
+                    clipPath#cut_svg
+                        rect( x='0' y='25' width='50' height='25' )
+                    circle( cx='25' cy='25' r='25' clip_path='url(#cut-svg)' style=color1 )
+
+    div#torch_right
+        canvas#fire2_canvas
+        div#svg_torch_left
+            svg( width='210' height='335' )
+                rect( x='0'   y='0'  rx='40' ry='40' width='210' height='85' style=color1 )
+                rect( x='17'  y='15' rx='20' ry='40' width='175' height='35' style=color2 )
+                rect( x='17'  y='15' rx='20' ry='40' width='70'  height='35' style=color3 )
+                rect( x='117' y='15' rx='20' ry='40' width='60'  height='35' style=color3 )
+
+                path( d='M45  85 L50 110 H160 L165  85 Z' style='fill:rgb(28,36,47);' )
+                path( d='M50 110 L80 310 H130 L160 110 Z' style='fill:rgb(47,59,73);' )
+
+                g( transform='translate(85,280) rotate(-82) scale(0.8)' )
+                    rect( x='17'  y='15' rx='20' ry='40' width='175' height='35' style=color2 )
+                    rect( x='30'  y='15' rx='20' ry='40' width='70'  height='35' style=color3 )
+                    rect( x='117' y='15' rx='20' ry='40' width='60'  height='35' style=color3 )
+
+                g( transform='translate(80,285)' )
+                    clipPath#cut_svg
+                        rect( x='0' y='25' width='50' height='25' )
+                    circle( cx='25' cy='25' r='25' clip_path='url(#cut-svg)' style=color1 )
+
+div( style='text-align: center' )
+    div#hp
+        div#heart1.heart
+        div#heart2.heart
+        div#heart3.heart
+
+div( style='text-align: center' )
+    div#hp
+        div#heart4.heart_purple
+        div#heart5.heart_purple
+        div#heart6.heart_purple
+
+img#sound( src='resources/sound.png' alt='Toggle Sound' onclick='toggleSound(this)')
+
+div#cloth_link See also <a id='codepen' href='http://codepen.io/Ediolot/full/LNWWbE/'>this</a> cloth codepen
+
+div#name Jorge Sierra Acosta (Audio theme from <a href='https://soundcloud.com/trevor-d-lentz'>Trevor Lenz</a> under <a href='http://creativecommons.org/licenses/by/3.0/'>CC-BY 3.0</a> License)
