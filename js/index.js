@@ -730,7 +730,6 @@ function startGame()
     document.getElementById('instructions1').classList.add('slide_left');
     document.getElementById('instructions2').classList.add('slide_right');
     setTimeout( function () {
-        console.log("Hey");
         document.getElementById('instructions1').style.display = 'none';
         document.getElementById('instructions2').style.display = 'none';
         document.getElementById('instructions' ).style.display = 'none';
@@ -825,7 +824,7 @@ function resetGame()
     heart6.style.backgroundPosition = "0px 0px";
 }
 
-window.onload = function ()
+document.onload = function ()
 {
     swing1_audio = new Audio('resources/swing1.mp3');
     swing2_audio = new Audio('resources/swing2.mp3');
