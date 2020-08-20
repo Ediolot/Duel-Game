@@ -824,7 +824,7 @@ function resetGame()
     heart6.style.backgroundPosition = "0px 0px";
 }
 
-document.onload = function ()
+window.onload = function ()
 {
     swing1_audio = new Audio('resources/swing1.mp3');
     swing2_audio = new Audio('resources/swing2.mp3');
